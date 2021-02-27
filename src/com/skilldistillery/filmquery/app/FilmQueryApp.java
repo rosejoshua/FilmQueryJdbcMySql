@@ -13,6 +13,10 @@ public class FilmQueryApp {
 		FilmQueryApp app = new FilmQueryApp();
 		// app.test();
 		app.launch();
+		System.out.println("TEST: HARDCODED FIND FILM ID 500");
+		System.out.println(app.db.findFilmById(500));
+		System.out.println("TEST: HARDCODED FIND ACTOR ID 5");
+		System.out.println(app.db.findActorById(5));
 	}
 
 //  private void test() {
@@ -21,6 +25,8 @@ public class FilmQueryApp {
 //  }
 
 	private void launch() {
+		
+		
 		Scanner input = new Scanner(System.in);
 
 		startUserInterface(input);

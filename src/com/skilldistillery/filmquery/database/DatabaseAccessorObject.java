@@ -32,19 +32,28 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			PreparedStatement stmt = conn.prepareStatement(sqltxt);
 			stmt.setInt(1, filmId);
+			//System.out.println(stmt.toString()); //FOR TESTING, REMOVE!
 			ResultSet rs = stmt.executeQuery();
 			
-			return new Film(Integer.parseInt(rs.getString("id")), 
-					rs.getString("title"), 
-					rs.getString("description"), 
-					Integer.parseInt(rs.getString("release_year")), 
-					Integer.parseInt(rs.getString("language_id")), 
-					Integer.parseInt(rs.getString("rental_duration")),
-					Double.parseDouble(rs.getString("rental_rate")),
-					Integer.parseInt(rs.getString("length")),
-					Double.parseDouble(rs.getString("replacement_cost")),
-					rs.getString("rating"),
-					rs.getString("special_features"));
+			if(rs.next()) {
+				Film film = new Film(Integer.parseInt(rs.getString("id")), 
+						rs.getString("title"), 
+						rs.getString("description"), 
+						rs.getInt("release_year"), 
+						Integer.parseInt(rs.getString("language_id")), 
+						Integer.parseInt(rs.getString("rental_duration")),
+						Double.parseDouble(rs.getString("rental_rate")),
+						Integer.parseInt(rs.getString("length")),
+						Double.parseDouble(rs.getString("replacement_cost")),
+						rs.getString("rating"),
+						rs.getString("special_features"));
+				
+				rs.close();
+			    stmt.close();
+			    conn.close();
+				return film;
+			}
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -56,7 +65,35 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public Actor findActorById(int actorId) {
-		// TODO Auto-generated method stub
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sqltxt;
+			sqltxt = "SELECT * FROM actor WHERE actor.id =?";
+
+			PreparedStatement stmt = conn.prepareStatement(sqltxt);
+			stmt.setInt(1, actorId);
+			System.out.println(stmt.toString()); //FOR TESTING, REMOVE!
+			ResultSet rs = stmt.executeQuery();
+
+			if(rs.next()) {
+				Actor actor = new Actor( 
+						rs.getInt("id"), 
+						rs.getString("first_name"), 
+						rs.getString("last_name"));
+				
+				rs.close();
+				stmt.close();
+				conn.close();
+				return actor;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

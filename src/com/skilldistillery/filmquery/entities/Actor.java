@@ -4,8 +4,7 @@ public class Actor {
 	
 	private Integer id;
 	private String firstName;
-	private String lastName;
-	
+	private String lastName;	
 	
 
 	public Actor(Integer id, String firstName, String lastName) {
