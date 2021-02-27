@@ -29,7 +29,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			String sqltxt;
-			sqltxt = "SELECT * FROM film WHERE film.id =?";
+			sqltxt = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, "
+					+ "film.rental_duration, film.rental_rate, film.length, film.replacement_cost, "
+					+ "film.rating, film.special_features, language.name "
+					+ "FROM film JOIN language ON film.language_id = language.id AND film.id = ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sqltxt);
 			stmt.setInt(1, filmId);
@@ -41,6 +44,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 						rs.getString("description"), 
 						rs.getInt("release_year"), 
 						Integer.parseInt(rs.getString("language_id")), 
+						rs.getString("name"), 
 						Integer.parseInt(rs.getString("rental_duration")),
 						Double.parseDouble(rs.getString("rental_rate")),
 						Integer.parseInt(rs.getString("length")),

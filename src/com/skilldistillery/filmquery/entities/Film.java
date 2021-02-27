@@ -9,6 +9,7 @@ public class Film {
 	private String description;
 	private Integer releaseYear;
 	private Integer languageId;
+	private String language;
 	private Integer rentalDuration;
 	private double rentalRate;
 	private Integer length;
@@ -18,7 +19,9 @@ public class Film {
 	private List actorList;
 	
 	
-	public Film(Integer id, String title, String description, Integer releaseYear, Integer languageId,
+	
+
+	public Film(Integer id, String title, String description, Integer releaseYear, Integer languageId, String language,
 			Integer rentalDuration, double rentalRate, Integer length, double replacementCost, String rating,
 			String specialFeatures, List actorList) {
 		super();
@@ -27,6 +30,7 @@ public class Film {
 		this.description = description;
 		this.releaseYear = releaseYear;
 		this.languageId = languageId;
+		this.language = language;
 		this.rentalDuration = rentalDuration;
 		this.rentalRate = rentalRate;
 		this.length = length;
@@ -78,6 +82,14 @@ public class Film {
 
 	public void setLanguageId(Integer languageId) {
 		this.languageId = languageId;
+	}	
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	public Integer getRentalDuration() {
@@ -145,6 +157,7 @@ public class Film {
 		result = prime * result + ((actorList == null) ? 0 : actorList.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((language == null) ? 0 : language.hashCode());
 		result = prime * result + ((languageId == null) ? 0 : languageId.hashCode());
 		result = prime * result + ((length == null) ? 0 : length.hashCode());
 		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
@@ -183,6 +196,11 @@ public class Film {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (language == null) {
+			if (other.language != null)
+				return false;
+		} else if (!language.equals(other.language))
 			return false;
 		if (languageId == null) {
 			if (other.languageId != null)
@@ -231,11 +249,14 @@ public class Film {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Film [id=").append(id).append(", title=").append(title).append(", description=")
 				.append(description).append(", releaseYear=").append(releaseYear).append(", languageId=")
-				.append(languageId).append(", rentalDuration=").append(rentalDuration).append(", rentalRate=")
-				.append(rentalRate).append(", length=").append(length).append(", replacementCost=")
-				.append(replacementCost).append(", rating=").append(rating).append(", specialFeatures=")
-				.append(specialFeatures).append(", actorList=").append(actorList).append("]");
+				.append(languageId).append(", language=").append(language).append(", rentalDuration=")
+				.append(rentalDuration).append(", rentalRate=").append(rentalRate).append(", length=").append(length)
+				.append(", replacementCost=").append(replacementCost).append(", rating=").append(rating)
+				.append(", specialFeatures=").append(specialFeatures).append(", actorList=").append(actorList)
+				.append("]");
 		return builder.toString();
 	}
+
+	
 	
 }
