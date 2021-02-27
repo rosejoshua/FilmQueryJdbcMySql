@@ -39,7 +39,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet rs = stmt.executeQuery();
 			
 			if(rs.next()) {
-				Film film = new Film(Integer.parseInt(rs.getString("id")), 
+				Film film = new Film(rs.getInt("id"), 
 						rs.getString("title"), 
 						rs.getString("description"), 
 						rs.getInt("release_year"), 
@@ -51,7 +51,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 						Double.parseDouble(rs.getString("replacement_cost")),
 						rs.getString("rating"),
 						rs.getString("special_features"),
-						findActorsByFilmId(filmId));
+						findActorsByFilmId(rs.getInt("id")));
 				
 				rs.close();
 			    stmt.close();
@@ -126,6 +126,54 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				stmt.close();
 				conn.close();
 				return actorList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<Film> findFilmsByKeyword(String searchString) {
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sqltxt;
+			sqltxt = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, "
+					+ "film.rental_duration, film.rental_rate, film.length, film.replacement_cost, "
+					+ "film.rating, film.special_features, language.name "
+					+ "FROM film JOIN language ON film.language_id = language.id "
+					+ "WHERE film.description like ? OR film.title like ?";
+
+			PreparedStatement stmt = conn.prepareStatement(sqltxt);
+			stmt.setString(1, "%" + searchString + "%");
+			stmt.setString(2, "%" + searchString + "%");
+			ResultSet rs = stmt.executeQuery();
+			
+			List<Film> filmList = new ArrayList<>();			
+
+			while(rs.next()) {
+				filmList.add(new Film(rs.getInt("id"), 
+						rs.getString("title"), 
+						rs.getString("description"), 
+						rs.getInt("release_year"), 
+						Integer.parseInt(rs.getString("language_id")), 
+						rs.getString("name"), 
+						Integer.parseInt(rs.getString("rental_duration")),
+						Double.parseDouble(rs.getString("rental_rate")),
+						Integer.parseInt(rs.getString("length")),
+						Double.parseDouble(rs.getString("replacement_cost")),
+						rs.getString("rating"),
+						rs.getString("special_features"),
+						findActorsByFilmId(rs.getInt("id"))));
+			}
+				
+				rs.close();
+				stmt.close();
+				conn.close();
+				return filmList;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
