@@ -1,5 +1,7 @@
 package com.skilldistillery.filmquery.entities;
 
+import java.util.List;
+
 public class Film {
 	
 	private Integer id;
@@ -13,11 +15,12 @@ public class Film {
 	private double replacementCost;
 	private String rating;
 	private String specialFeatures;
+	private List actorList;
 	
 	
 	public Film(Integer id, String title, String description, Integer releaseYear, Integer languageId,
 			Integer rentalDuration, double rentalRate, Integer length, double replacementCost, String rating,
-			String specialFeatures) {
+			String specialFeatures, List actorList) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -30,6 +33,7 @@ public class Film {
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
+		this.actorList = actorList;
 	}
 
 	public Film() {
@@ -123,11 +127,22 @@ public class Film {
 	public void setSpecialFeatures(String specialFeatures) {
 		this.specialFeatures = specialFeatures;
 	}
+	
+	
+
+	public List getActorList() {
+		return actorList;
+	}
+
+	public void setActorList(List actorList) {
+		this.actorList = actorList;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((actorList == null) ? 0 : actorList.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((languageId == null) ? 0 : languageId.hashCode());
@@ -154,6 +169,11 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
+		if (actorList == null) {
+			if (other.actorList != null)
+				return false;
+		} else if (!actorList.equals(other.actorList))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -214,10 +234,8 @@ public class Film {
 				.append(languageId).append(", rentalDuration=").append(rentalDuration).append(", rentalRate=")
 				.append(rentalRate).append(", length=").append(length).append(", replacementCost=")
 				.append(replacementCost).append(", rating=").append(rating).append(", specialFeatures=")
-				.append(specialFeatures).append("]");
+				.append(specialFeatures).append(", actorList=").append(actorList).append("]");
 		return builder.toString();
 	}
-	
-	
 	
 }

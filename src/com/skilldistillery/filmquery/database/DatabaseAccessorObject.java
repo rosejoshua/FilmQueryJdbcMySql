@@ -46,7 +46,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 						Integer.parseInt(rs.getString("length")),
 						Double.parseDouble(rs.getString("replacement_cost")),
 						rs.getString("rating"),
-						rs.getString("special_features"));
+						rs.getString("special_features"),
+						findActorsByFilmId(filmId));
 				
 				rs.close();
 			    stmt.close();
