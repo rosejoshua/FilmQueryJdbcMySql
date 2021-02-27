@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.skilldistillery.filmquery.entities.Actor;
@@ -32,7 +33,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			PreparedStatement stmt = conn.prepareStatement(sqltxt);
 			stmt.setInt(1, filmId);
-			//System.out.println(stmt.toString()); //FOR TESTING, REMOVE!
 			ResultSet rs = stmt.executeQuery();
 			
 			if(rs.next()) {
@@ -56,7 +56,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -74,7 +73,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			PreparedStatement stmt = conn.prepareStatement(sqltxt);
 			stmt.setInt(1, actorId);
-			System.out.println(stmt.toString()); //FOR TESTING, REMOVE!
 			ResultSet rs = stmt.executeQuery();
 
 			if(rs.next()) {
@@ -90,7 +88,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -99,7 +96,36 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) {
-		// TODO Auto-generated method stub
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sqltxt;
+			sqltxt = "SELECT actor.id, actor.first_name, actor.last_name "
+					+ "FROM actor JOIN film_actor ON actor.id = film_actor.actor_id "
+					+ "AND film_actor.film_id = ?";
+
+			PreparedStatement stmt = conn.prepareStatement(sqltxt);
+			stmt.setInt(1, filmId);
+			ResultSet rs = stmt.executeQuery();
+			
+			List<Actor> actorList = new ArrayList<>();			
+
+			while(rs.next()) {
+				actorList.add(new Actor(rs.getInt("id"), 
+						rs.getString("first_name"), 
+						rs.getString("last_name")));
+			}
+				
+				rs.close();
+				stmt.close();
+				conn.close();
+				return actorList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

@@ -17,6 +17,8 @@ public class FilmQueryApp {
 		System.out.println(app.db.findFilmById(500));
 		System.out.println("TEST: HARDCODED FIND ACTOR ID 5");
 		System.out.println(app.db.findActorById(5));
+		System.out.println("TEST: HARDCODED FIND ACTOR LIST FILM ID 5");
+		System.out.println(app.db.findActorsByFilmId(5));
 	}
 
 //  private void test() {
