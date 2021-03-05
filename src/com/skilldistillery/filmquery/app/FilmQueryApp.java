@@ -87,9 +87,12 @@ public class FilmQueryApp {
 				printFilm(film2);				
 			}
 			break;
+			
+		case 3:
+			System.out.println("Goodbye!");
+			return false;
 
 		default:
-			System.out.println("Goodbye!");
 		}
 		return true;
 		
